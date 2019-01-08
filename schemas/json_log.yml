@@ -1,0 +1,110 @@
+---
+- name: json_log
+  title: Json Log
+  description: >
+    Fields which are specific to json log lines.
+  type: group
+  fields:
+
+    - name: type
+      level: core
+      type: keyword
+      description: >
+        Indicates the type of a log where the line is from.
+        Some examples are `console`, `rolling`, `deprecation_rolling`, `index_search_slowlog_rolling`.
+
+      example: console
+
+    - name: timestamp
+        level: core
+        type: keyword
+        description: >
+          The timestamp of when the log line was logged. It is in ISO8601 format with additional time zone
+          The log4j2 pattern is: yyyy-MM-dd'T'HH:mm:ss,SSSZ
+
+          Example is `2019-01-04T22:46:53,353+0100`.
+        example: 2019-01-04T22:46:53,353+0100
+
+    - name: level
+        level: core
+        type: keyword
+        description: >
+          Log level of the log event.
+
+          Some examples are `WARN`, `ERR`, `INFO`.
+        example: ERR
+
+    - name: component
+        level: core
+        type: keyword
+        description: >
+          The log4j2 logger name used to produce that log line. This most of the time is a class with a abbreviated package,
+          but can be any string.
+
+          Some examples are `o.e.p.PluginsService` .
+        example: o.e.p.PluginsService
+
+    - name: cluster.name
+        level: core
+        type: keyword
+        description: >
+          The cluster name of where the log line was created. Cluster name often is specified as a cluster.name
+          property in elasticsearch.yml. If not specified it can be generated.
+
+          Some examples are `my-application` .
+        example: my-application
+
+    - name: node.name
+        level: core
+        type: keyword
+        description: >
+          The node name of where the log line was created. Node name often is specified as a node.name
+          property in elasticsearch.yml. If not specified it can be generated.
+
+          Some examples are `node-0` .
+        example: node-0
+
+    - name: cluster.uuid
+        level: core
+        type: keyword
+        description: >
+          The universally unique identifier of the cluster where the log line was created. These are not available from the start of
+          the server, but become present in log lines when the first cluster state update is received.
+
+          Some examples are `fh9iWUs0TFmt7x8NNN8NCQ` .
+        example: fh9iWUs0TFmt7x8NNN8NCQ
+
+
+    - name: node.id
+        level: core
+        type: keyword
+        description: >
+          The identifier of the node where the log line was created. These are not available from the start of
+          the server, but become present in log lines when the first cluster state update is received.
+
+          Some examples are `5fpgdRADT7W1b9Amk-lSgA` .
+        example: 5fpgdRADT7W1b9Amk-lSgA
+
+    - name: message
+        level: core
+        type: keyword
+        description: >
+          The message in json escaped format. It can contain json itself, but it will be escaped. Also if it contains new lines, tabs
+          these also will be escaped
+
+          Some examples are `Sample message` , `line1\\nline2`, `json TODO`.
+        example: Sample message
+
+    - name: stacktrace
+        level: core
+        type: keyword
+        description: >
+          The exception stacktrace of the throwable. It is a json array of strings where elements are lines of the java stacktrace
+          including the cause when present
+
+          Some examples are
+          ```
+          "stacktrace": ["java.lang.Exception: java.lang.OutOfMemoryError: die with dignity",
+          "at org.elasticsearch.http.netty4.Netty4HttpRequestHandler.exceptionCaught(Netty4HttpRequestHandler.java:79) [transport-netty4-client-7.0.0-SNAPSHOT.jar:7.0.0-SNAPSHOT]"
+          ]
+          ```
